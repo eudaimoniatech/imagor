@@ -244,7 +244,7 @@ func main() {
 
 	if *fileStorageBaseDir != "" {
 		// activate File Storage only if base dir config presents
-		storage := filestorage.New(
+		s := filestorage.New(
 			*fileStorageBaseDir,
 			filestorage.WithPathPrefix(*fileStoragePathPrefix),
 			filestorage.WithMkdirPermission(*fileStorageMkdirPermission),
@@ -252,8 +252,8 @@ func main() {
 			filestorage.WithSafeChars(*fileSafeChars),
 			filestorage.WithExpiration(*fileStorageExpiration),
 		)
-		loaders = append(loaders, storage)
-		savers = append(savers, storage)
+		loaders = append(loaders, s)
+		savers = append(savers, s)
 	}
 	if *fileLoaderBaseDir != "" {
 		// activate File Loader only if base dir config presents
@@ -292,15 +292,15 @@ func main() {
 		}
 		if *gcloudStorageBucket != "" {
 			// activate Google Cloud Storage only if bucket config presents
-			storage := gcloudstorage.New(gcloudClient, *gcloudStorageBucket,
+			s := gcloudstorage.New(gcloudClient, *gcloudStorageBucket,
 				gcloudstorage.WithPathPrefix(*gcloudStoragePathPrefix),
 				gcloudstorage.WithBaseDir(*gcloudStorageBaseDir),
 				gcloudstorage.WithACL(*gcloudStorageACL),
 				gcloudstorage.WithSafeChars(*gcloudSafeChars),
 				gcloudstorage.WithExpiration(*gcloudStorageExpiration),
 			)
-			loaders = append(loaders, storage)
-			savers = append(savers, storage)
+			loaders = append(loaders, s)
+			savers = append(savers, s)
 		}
 
 		if *gcloudLoaderBucket != "" {
@@ -350,15 +350,15 @@ func main() {
 		}
 		if *s3StorageBucket != "" {
 			// activate S3 Storage only if bucket config presents
-			storage := s3storage.New(sess, *s3StorageBucket,
+			s := s3storage.New(sess, *s3StorageBucket,
 				s3storage.WithPathPrefix(*s3StoragePathPrefix),
 				s3storage.WithBaseDir(*s3StorageBaseDir),
 				s3storage.WithACL(*s3StorageACL),
 				s3storage.WithSafeChars(*s3SafeChars),
 				s3storage.WithExpiration(*s3StorageExpiration),
 			)
-			loaders = append(loaders, storage)
-			savers = append(savers, storage)
+			loaders = append(loaders, s)
+			savers = append(savers, s)
 		}
 		if *s3LoaderBucket != "" {
 			// activate S3 Loader only if bucket config presents
