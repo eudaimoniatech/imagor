@@ -234,7 +234,7 @@ func TestWithForwardHeadersOverrideUserAgent(t *testing.T) {
 	})
 }
 
-func TestWithForwardAllHeaders(t *testing.T) {
+func TestWithForwardClientHeaders(t *testing.T) {
 	doTests(t, New(
 		WithTransport(roundTripFunc(func(r *http.Request) (w *http.Response, err error) {
 			assert.Equal(t, r.Header.Get("User-Agent"), "Test")
@@ -246,7 +246,7 @@ func TestWithForwardAllHeaders(t *testing.T) {
 			}, nil
 		})),
 		WithUserAgent("foobar"),
-		WithForwardAllHeaders(true),
+		WithForwardClientHeaders(true),
 	), []test{
 		{
 			name:   "user agent",
@@ -290,7 +290,7 @@ func TestWithOverrideForwardHeaders(t *testing.T) {
 			}, nil
 		})),
 		WithUserAgent("foobar"),
-		WithForwardAllHeaders(true),
+		WithForwardClientHeaders(true),
 		WithOverrideHeader("x-Imagor-Foo", "Boom"),
 		WithOverrideHeader("User-Agent", "Ha"),
 	), []test{

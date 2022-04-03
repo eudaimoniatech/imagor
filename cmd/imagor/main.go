@@ -95,8 +95,10 @@ func main() {
 
 		httpLoaderForwardHeaders = fs.String("http-loader-forward-headers", "",
 			"Forward request header to HTTP Loader request by csv e.g. User-Agent,Accept")
+		httpLoaderForwardClientHeaders = fs.Bool("http-loader-forward-client-headers", false,
+			"Forward browser client request headers to HTTP Loader request")
 		httpLoaderForwardAllHeaders = fs.Bool("http-loader-forward-all-headers", false,
-			"Forward all request headers to HTTP Loader request")
+			"Deprecated in flavour of -http-loader-forward-client-headers")
 		httpLoaderAllowedSources = fs.String("http-loader-allowed-sources", "",
 			"HTTP Loader allowed hosts whitelist to load images from if set. Accept csv wth glob pattern e.g. *.google.com,*.github.com.")
 		httpLoaderMaxAllowedSize = fs.Int("http-loader-max-allowed-size", 0,
@@ -393,7 +395,8 @@ func main() {
 		// fallback with HTTP Loader unless explicitly disabled
 		loaders = append(loaders,
 			httploader.New(
-				httploader.WithForwardAllHeaders(*httpLoaderForwardAllHeaders),
+				httploader.WithForwardClientHeaders(
+					*httpLoaderForwardClientHeaders || *httpLoaderForwardAllHeaders),
 				httploader.WithAccept(*httpLoaderAccept),
 				httploader.WithForwardHeaders(*httpLoaderForwardHeaders),
 				httploader.WithAllowedSources(*httpLoaderAllowedSources),
